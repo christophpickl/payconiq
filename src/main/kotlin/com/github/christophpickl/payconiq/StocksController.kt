@@ -8,11 +8,12 @@ import java.time.LocalDateTime
 
 @RestController
 @RequestMapping(value = ["/api/stocks"])
-class StocksController {
+class StocksController(
+        private val service: StocksService
+) {
 
     @GetMapping(produces = [APPLICATION_JSON_VALUE])
-    fun getStocks(): List<StockDto> =
-            listOf(StockDto(1, "name", AmountDto.euro(100), LocalDateTime.now()))
+    fun getStocks(): List<StockDto> = service.fetchStocks()
 
 }
 
