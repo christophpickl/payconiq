@@ -9,6 +9,12 @@ data class StockDto(
     val lastUpdate: LocalDateTime
 )
 
+data class UpdateStockRequestDto(
+    val currentPrice: AmountDto
+) {
+    companion object
+}
+
 data class AmountDto(
     val value: Long,
     val precision: Int,
