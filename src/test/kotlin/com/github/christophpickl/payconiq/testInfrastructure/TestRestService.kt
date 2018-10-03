@@ -4,21 +4,46 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.assertj.core.api.Assertions.assertThat
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.test.web.client.getForEntity
+import org.springframework.boot.test.web.client.exchange
+import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
+import org.springframework.http.RequestEntity
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import java.net.URI
+
+enum class Method(
+    val httpMethod: HttpMethod
+) {
+    GET(HttpMethod.GET),
+    POST(HttpMethod.POST),
+    PUT(HttpMethod.PUT),
+    DELETE(HttpMethod.DELETE);
+
+}
 
 @Service
 class TestRestService(
-    val internalRest: TestRestTemplate,
+    private val internalRest: TestRestTemplate,
     val mapper: ObjectMapper
 ) {
 
-    inline fun <reified T : Any> getForEntity(path: String) = internalRest.getForEntity<T>(path)
+    fun execute(
+        method: Method,
+        path: String,
+        body: Any? = null
+    ): ResponseEntity<String> {
+        return internalRest.exchange(RequestEntity(body, method.httpMethod, URI.create(path)))
+    }
 
-    inline fun <reified T : Any> getForEntityAssertingOk(path: String): T {
-        val response = internalRest.getForEntity<String>(path)
-        assertThat(response.statusCode).describedAs("Response was: $response").isEqualTo(HttpStatus.OK)
+    inline fun <reified T : Any> executeExpectingStatusCode(
+        method: Method,
+        path: String,
+        body: Any? = null,
+        expectedStatusCode: HttpStatus = HttpStatus.OK
+    ): T {
+        val response = execute(method, path, body)
+        assertThat(response.statusCode).describedAs("Response was: $response").isEqualTo(expectedStatusCode)
         return mapper.readValue<T>(response.body!!)
     }
 
