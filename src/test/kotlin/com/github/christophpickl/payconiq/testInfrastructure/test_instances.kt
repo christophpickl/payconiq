@@ -1,7 +1,7 @@
 package com.github.christophpickl.payconiq.testInfrastructure
 
-import com.github.christophpickl.payconiq.AmountDbo
-import com.github.christophpickl.payconiq.StockDbo
+import com.github.christophpickl.payconiq.persistence.AmountDbo
+import com.github.christophpickl.payconiq.persistence.StockDbo
 import java.time.LocalDateTime
 
 val StockDbo.Companion.testInstance

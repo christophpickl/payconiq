@@ -11,6 +11,10 @@ Used tech stack:
 * Spring Boot 2
 * JUnit 5, AssertJ, Mockito
 
+# TODO (for me)
+
+* add postman collection
+* proper logging
 
 ## Notes
 
@@ -26,3 +30,4 @@ Used tech stack:
 * Switch to Java 11
 * Use Kotlin-DSL for gradle scripts
 * Build a Docker image and deploy to some (free) PaaS vendor
+* Add implicit logging for certain (service/annotated) classes, rather do it manually

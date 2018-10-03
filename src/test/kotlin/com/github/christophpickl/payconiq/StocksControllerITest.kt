@@ -1,5 +1,9 @@
 package com.github.christophpickl.payconiq
 
+import com.github.christophpickl.payconiq.persistence.StockDbo
+import com.github.christophpickl.payconiq.persistence.StocksRepository
+import com.github.christophpickl.payconiq.rest.StockDto
+import com.github.christophpickl.payconiq.service.toStockDto
 import com.github.christophpickl.payconiq.testInfrastructure.IntegrationTest
 import com.github.christophpickl.payconiq.testInfrastructure.TestRestService
 import com.github.christophpickl.payconiq.testInfrastructure.testInstance
