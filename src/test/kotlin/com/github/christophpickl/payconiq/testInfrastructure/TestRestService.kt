@@ -14,10 +14,10 @@ class TestRestService(
     val mapper: ObjectMapper
 ) {
 
-    inline fun <reified T : Any> getForEntity(url: String) = internalRest.getForEntity<T>("/api/stocks")
+    inline fun <reified T : Any> getForEntity(path: String) = internalRest.getForEntity<T>(path)
 
-    inline fun <reified T : Any> getForEntityAssertingOk(url: String): T {
-        val response = internalRest.getForEntity<String>(url)
+    inline fun <reified T : Any> getForEntityAssertingOk(path: String): T {
+        val response = internalRest.getForEntity<String>(path)
         assertThat(response.statusCode).describedAs("Response was: $response").isEqualTo(HttpStatus.OK)
         return mapper.readValue<T>(response.body!!)
     }
