@@ -20,3 +20,8 @@ Used tech stack:
 
 * Unit and integration tests were not split up (own source paths) in order to keep it as simple as possible for this assignment.
 * There are no separate modules (rest, service, persistence) as it would have only unnecessarily increased the complexity.
+
+## Further possible doings
+
+* Switch to Java 11
+* Use Kotlin-DSL for gradle scripts
