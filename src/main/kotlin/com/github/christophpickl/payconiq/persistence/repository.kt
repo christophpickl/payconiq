@@ -14,7 +14,7 @@ interface StocksRepository {
 @Repository
 class InMemoryStocksRepository : StocksRepository {
 
-    private val stocksById = mutableMapOf<Long, StockDbo>()
+    /* visible for testing */ val stocksById = mutableMapOf<Long, StockDbo>()
     private val idGenerator = AtomicLong(1)
 
     override fun fetchStock(stockId: Long): StockDbo? =
@@ -24,7 +24,6 @@ class InMemoryStocksRepository : StocksRepository {
         stocksById.values.toList()
 
     override fun saveStock(saveStock: StockDbo): StockDbo {
-        // TODO #5 write test for this
         val nextId = idGenerator.getAndIncrement()
         val toBeSaved = saveStock.copy(id = nextId)
         stocksById[nextId] = toBeSaved

@@ -19,5 +19,5 @@ data class AmountDbo(
     companion object {
         fun euro(euro: Long) = AmountDbo(euro, 0, "EUR")
     }
-    fun add(newValue: Int) = copy(value = value + newValue)
+    fun add(addValue: Int) = copy(value = value + addValue)
 }
