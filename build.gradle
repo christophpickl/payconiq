@@ -11,12 +11,19 @@ buildscript {
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.2.71"
     id "org.jetbrains.kotlin.plugin.allopen" version "1.2.71"
+    id "org.springframework.boot" version "2.0.5.RELEASE"
+    id "io.spring.dependency-management" version "1.0.6.RELEASE"
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.71"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
     compile "io.github.microutils:kotlin-logging:1.6.10"
 
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin"
+
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
     testCompile "org.assertj:assertj-core:3.11.1"
     testCompile "com.nhaarman:mockito-kotlin:1.6.0"
 }
@@ -26,9 +33,9 @@ targetCompatibility = versionJava
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     kotlinOptions {
         jvmTarget = versionJava.toString()
+        freeCompilerArgs = ["-Xjsr305=strict"]
     }
 }
-
 
 repositories {
     mavenCentral()
