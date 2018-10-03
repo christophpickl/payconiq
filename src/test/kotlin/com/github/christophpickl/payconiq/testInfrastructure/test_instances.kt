@@ -3,7 +3,7 @@ package com.github.christophpickl.payconiq.testInfrastructure
 import com.github.christophpickl.payconiq.persistence.AmountDbo
 import com.github.christophpickl.payconiq.persistence.StockDbo
 import com.github.christophpickl.payconiq.rest.AmountDto
-import com.github.christophpickl.payconiq.rest.UpdateStockDto
+import com.github.christophpickl.payconiq.rest.UpdateStockRequestDto
 import java.time.LocalDateTime
 
 val StockDbo.Companion.testInstance
@@ -17,8 +17,8 @@ val StockDbo.Companion.testInstance
 val AmountDbo.Companion.testInstance
     get() = AmountDbo.euro(100)
 
-val UpdateStockDto.Companion.testInstance
-    get() = UpdateStockDto(AmountDto.testInstance)
+val UpdateStockRequestDto.Companion.testInstance
+    get() = UpdateStockRequestDto(AmountDto.testInstance)
 
 val AmountDto.Companion.testInstance
     get() = AmountDto.euro(200)

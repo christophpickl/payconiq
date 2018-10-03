@@ -12,7 +12,21 @@ fun StockDbo.toStockDto() = StockDto(
     lastUpdate = lastUpdate
 )
 
+fun StockDto.toStockDbo() = StockDbo(
+    id = id,
+    name = name,
+    currentPrice = currentPrice.toAmountDbo(),
+    lastUpdate = lastUpdate
+)
+
 fun AmountDbo.toAmountDto() = AmountDto(
+    value = value,
+    precision = precision,
+    currency = currency
+)
+
+
+fun AmountDto.toAmountDbo() = AmountDbo(
     value = value,
     precision = precision,
     currency = currency

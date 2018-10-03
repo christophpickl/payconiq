@@ -3,7 +3,7 @@ package com.github.christophpickl.payconiq
 import com.github.christophpickl.payconiq.persistence.StockDbo
 import com.github.christophpickl.payconiq.persistence.StocksRepository
 import com.github.christophpickl.payconiq.rest.StockDto
-import com.github.christophpickl.payconiq.rest.UpdateStockDto
+import com.github.christophpickl.payconiq.rest.UpdateStockRequestDto
 import com.github.christophpickl.payconiq.service.toAmountDto
 import com.github.christophpickl.payconiq.service.toStockDto
 import com.github.christophpickl.payconiq.testInfrastructure.IntegrationTest
@@ -86,7 +86,7 @@ class StocksControllerITest @Autowired constructor(
         val response = rest.execute(
             method = PUT,
             path = "$stocksPath/$nonExistingStockId",
-            body = UpdateStockDto.testInstance
+            body = UpdateStockRequestDto.testInstance
         )
 
         assertThat(response.statusCode).isEqualTo(HttpStatus.NOT_FOUND)
@@ -99,24 +99,26 @@ class StocksControllerITest @Autowired constructor(
         val response = rest.execute(
             method = PUT,
             path = "$stocksPath/${stockDbo.id}",
-            body = UpdateStockDto.testInstance
+            body = UpdateStockRequestDto.testInstance
         )
 
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 
     @Test
-    fun `Given stock exists When update that stock Then update in repository`() {
+    fun `Given stock exists When update that stock Then update in repository and return it`() {
         val updatedPrice = stockDbo.currentPrice.add(100)
         whenever(stocksRepository.fetchStock(stockDbo.id)).thenReturn(stockDbo)
 
-        val response = rest.execute(
+        val returnedStock = rest.executeExpectingStatusCode<StockDto>(
             method = PUT,
             path = "$stocksPath/${stockDbo.id}",
-            body = UpdateStockDto.testInstance.copy(currentPrice = updatedPrice.toAmountDto())
+            body = UpdateStockRequestDto(currentPrice = updatedPrice.toAmountDto())
         )
 
-        verify(stocksRepository).updateStock(stockDbo.copy(currentPrice = updatedPrice))
+        val stockDboUpdated = stockDbo.copy(currentPrice = updatedPrice)
+        verify(stocksRepository).updateStock(stockDboUpdated)
+        assertThat(returnedStock).isEqualTo(stockDboUpdated.toStockDto())
     }
 
 }

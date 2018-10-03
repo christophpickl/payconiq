@@ -9,7 +9,7 @@ data class StockDto(
     val lastUpdate: LocalDateTime
 )
 
-data class UpdateStockDto(
+data class UpdateStockRequestDto(
     val currentPrice: AmountDto
 ) {
     companion object
