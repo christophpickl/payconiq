@@ -25,3 +25,4 @@ Used tech stack:
 
 * Switch to Java 11
 * Use Kotlin-DSL for gradle scripts
+* Build a Docker image and deploy to some (free) PaaS vendor

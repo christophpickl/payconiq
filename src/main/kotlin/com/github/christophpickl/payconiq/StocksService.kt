@@ -4,23 +4,27 @@ import org.springframework.stereotype.Service
 
 @Service
 class StocksService(
-        private val repo: StocksRepository
+    private val repo: StocksRepository
 ) {
 
-    fun fetchStocks(): List<StockDto> =
-            repo.fetchStocks().map { it.toStockDto() }
+    private val log = log {}
 
-    private fun StockDbo.toStockDto() = StockDto(
-            id = id,
-            name = name,
-            currentPrice = currentPrice.toAmountDto(),
-            lastUpdate = lastUpdate
-    )
-
-    private fun AmountDbo.toAmountDto() = AmountDto(
-            value = value,
-            precision = precision,
-            currency = currency
-    )
+    fun fetchStocks(): List<StockDto> {
+        log.info { "fetchStocks()" }
+        return repo.fetchStocks().map { it.toStockDto() }
+    }
 
 }
+
+fun StockDbo.toStockDto() = StockDto(
+    id = id,
+    name = name,
+    currentPrice = currentPrice.toAmountDto(),
+    lastUpdate = lastUpdate
+)
+
+fun AmountDbo.toAmountDto() = AmountDto(
+    value = value,
+    precision = precision,
+    currency = currency
+)

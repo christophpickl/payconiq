@@ -1,4 +1,4 @@
-package com.github.christophpickl.payconiq
+package com.github.christophpickl.payconiq.testInfrastructure
 
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.context.SpringBootTest
