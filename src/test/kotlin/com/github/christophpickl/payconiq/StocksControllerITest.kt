@@ -14,6 +14,7 @@ import com.github.christophpickl.payconiq.testInfrastructure.Method.GET
 import com.github.christophpickl.payconiq.testInfrastructure.Method.PUT
 import com.github.christophpickl.payconiq.testInfrastructure.TestRestService
 import com.github.christophpickl.payconiq.testInfrastructure.testInstance
+import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.assertj.core.api.Assertions.assertThat
@@ -86,7 +87,9 @@ class StocksControllerITest @Autowired constructor(
     // =================================================================================================================
 
     @Test
-    fun `When create new stock Then return status code 200 OK`() {
+    fun `Given repo saves stock When create new stock Then return status code 200 OK`() {
+        whenever(mockStocksRepository.saveStock(any())).thenReturn(StockDbo.testInstance)
+
         val response = rest.execute(
             method = Method.POST,
             path = stocksPath,
@@ -97,8 +100,8 @@ class StocksControllerITest @Autowired constructor(
     }
 
     @Test
-    fun `When create new stock Then return save in repository and return it`() {
-        val expectedStockDto = createStockDto.toStockDto(id = 0)
+    fun `Given repo saves stock When create new stock Then return save in repository and return it`() {
+        val expectedStockDto = createStockDto.toStockDto()
         val persistedStockDto = expectedStockDto.copy(id = 1)
         whenever(mockStocksRepository.saveStock(expectedStockDto.toStockDbo())).thenReturn(persistedStockDto.toStockDbo())
 
@@ -154,13 +157,5 @@ class StocksControllerITest @Autowired constructor(
         verify(mockStocksRepository).updateStock(stockDboUpdated)
         assertThat(returnedStock).isEqualTo(stockDboUpdated.toStockDto())
     }
-
-
-    private fun CreateStockRequestDto.toStockDto(id: Long) = StockDto(
-        id = id,
-        name = name,
-        currentPrice = currentPrice,
-        lastUpdate = lastUpdate
-    )
 
 }
