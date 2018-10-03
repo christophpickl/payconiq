@@ -21,24 +21,56 @@ class StocksControllerITest @Autowired constructor(
 
     @MockBean
     private lateinit var stocksRepository: StocksRepository
-
     private val stocksPath = "/api/stocks"
-    private val stockDbos = listOf(StockDbo.testInstance)
+    private val stockDbo = StockDbo.testInstance
+    private val stockDbos = listOf(stockDbo)
+    private val nonExistingStockId = 42
+
+    // GET /stocks
+    // =================================================================================================================
 
     @Test
-    fun `When GET stocks Then return status code 200`() {
+    fun `When GET stocks Then return status code 200 OK`() {
         val response = rest.getForEntity<Any>(stocksPath)
 
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 
     @Test
-    fun `Given repo returns some stocks When GET stocks Then return those stocks`() {
+    fun `Given some stocks exist When GET stocks Then return those stocks`() {
         whenever(stocksRepository.fetchStocks()).thenReturn(stockDbos)
 
-        val stocks = rest.getForEntityAssertingOk<List<StockDto>>(stocksPath)
+        val returnedStocks = rest.getForEntityAssertingOk<List<StockDto>>(stocksPath)
 
-        assertThat(stocks).isEqualTo(stockDbos.map { it.toStockDto() })
+        assertThat(returnedStocks).isEqualTo(stockDbos.map { it.toStockDto() })
+    }
+
+    // GET /stocks/$stockId
+    // =================================================================================================================
+
+    @Test
+    fun `When GET non-existing stock Then return status code 404 NOT FOUND`() {
+        val response = rest.getForEntity<Any>("$stocksPath/$nonExistingStockId")
+
+        assertThat(response.statusCode).isEqualTo(HttpStatus.NOT_FOUND)
+    }
+
+    @Test
+    fun `Given stock exists When GET this stock Then return status code 200 OK`() {
+        whenever(stocksRepository.fetchStock(stockDbo.id)).thenReturn(stockDbo)
+
+        val response = rest.getForEntity<Any>("$stocksPath/${stockDbo.id}")
+
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+    }
+
+    @Test
+    fun `Given stock exists When GET this stock Then return that stocks`() {
+        whenever(stocksRepository.fetchStock(stockDbo.id)).thenReturn(stockDbo)
+
+        val returnedStock = rest.getForEntityAssertingOk<StockDto>("$stocksPath/${stockDbo.id}")
+
+        assertThat(returnedStock).isEqualTo(stockDbo.toStockDto())
     }
 
 }
