@@ -14,21 +14,20 @@ interface StocksRepository {
 @Repository
 class InMemoryStocksRepository : StocksRepository {
 
-    /* visible for testing */ val stocksById = mutableMapOf<Long, StockDbo>()
+    /** Visible for testing. */
+    val stocksById = mutableMapOf<Long, StockDbo>()
     private val idGenerator = AtomicLong(1)
 
-    override fun fetchStock(stockId: Long): StockDbo? =
+    override fun fetchStock(stockId: Long) =
         stocksById[stockId]
 
-    override fun fetchStocks(): List<StockDbo> =
+    override fun fetchStocks() =
         stocksById.values.toList()
 
-    override fun saveStock(saveStock: StockDbo): StockDbo {
-        val nextId = idGenerator.getAndIncrement()
-        val toBeSaved = saveStock.copy(id = nextId)
-        stocksById[nextId] = toBeSaved
-        return toBeSaved
-    }
+    override fun saveStock(saveStock: StockDbo) =
+        saveStock.copy(id = idGenerator.getAndIncrement()).apply {
+            stocksById[id] = this
+        }
 
     override fun updateStock(updateStock: StockDbo) {
         fetchStock(updateStock.id) ?: throw NotFoundException("Stock not found by ID: ${updateStock.id}")

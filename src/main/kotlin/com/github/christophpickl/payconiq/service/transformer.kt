@@ -26,18 +26,17 @@ fun AmountDbo.toAmountDto() = AmountDto(
     currency = currency
 )
 
-
 fun AmountDto.toAmountDbo() = AmountDbo(
     value = value,
     precision = precision,
     currency = currency
 )
 
-val UNSET_STOCK_ID = 0L
+const val UNSET_STOCK_ID = 0L
 
-fun CreateStockRequestDto.toStockDto() = StockDto(
+fun CreateStockRequestDto.toStockDbo() = StockDbo(
     id = UNSET_STOCK_ID,
     name = name,
-    currentPrice = currentPrice,
+    currentPrice = currentPrice.toAmountDbo(),
     lastUpdate = lastUpdate
 )

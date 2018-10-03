@@ -15,8 +15,13 @@ val StockDbo.Companion.testInstance
         lastUpdate = LocalDateTime.parse("2018-10-03T21:42:30")
     )
 
-val AmountDbo.Companion.testInstance
-    get() = AmountDbo.euro(100)
+val StockDbo.Companion.testInstanceChanged
+    get() = StockDbo(
+        id = StockDbo.testInstance.id,
+        name = StockDbo.testInstance.name + "x",
+        currentPrice = StockDbo.testInstance.currentPrice.add(1),
+        lastUpdate = StockDbo.testInstance.lastUpdate.plusYears(1)
+    )
 
 val UpdateStockRequestDto.Companion.testInstance
     get() = UpdateStockRequestDto(AmountDto.testInstance)
@@ -30,3 +35,6 @@ val CreateStockRequestDto.Companion.testInstance
 
 val AmountDto.Companion.testInstance
     get() = AmountDto.euro(200)
+
+val AmountDbo.Companion.testInstance
+    get() = AmountDbo.euro(100)

@@ -15,23 +15,27 @@ class StocksService(
     private val log = logger {}
 
     fun fetchStocks(): List<StockDto> {
-        log.info { "fetchStocks()" }
+        log.debug { "fetchStocks()" }
         return repo.fetchStocks().map { it.toStockDto() }
     }
 
-    fun fetchStock(stockId: Long): StockDto =
-         repo.fetchStock(stockId)?.toStockDto() ?: throw NotFoundException("Stock not found by ID: $stockId")
+    fun fetchStock(stockId: Long): StockDto {
+        log.debug { "fetchStock(stockId=$stockId)" }
+        return repo.fetchStock(stockId)?.toStockDto() ?: throw NotFoundException("Stock not found by ID: $stockId")
+    }
+
+    fun createStock(stockRequest: CreateStockRequestDto): StockDto {
+        log.debug { "createStock(stockRequest=$stockRequest)" }
+        val savedStock = repo.saveStock(stockRequest.toStockDbo())
+        return savedStock.toStockDto()
+    }
 
     fun updateStock(stockId: Long, stockRequest: UpdateStockRequestDto): StockDto {
+        log.debug { "fetchStock(stockId=$stockId, stockRequest=$stockRequest)" }
         val storedStock = fetchStock(stockId)
         val updatedStock = storedStock.copyBy(stockRequest)
         repo.updateStock(updatedStock.toStockDbo())
         return updatedStock
-    }
-
-    fun createStock(stockRequest: CreateStockRequestDto): StockDto {
-        val savedStock = repo.saveStock(stockRequest.toStockDto().toStockDbo())
-        return savedStock.toStockDto()
     }
 
 }

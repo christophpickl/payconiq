@@ -33,8 +33,9 @@ class StocksControllerITest @Autowired constructor(
     private val stocksPath = "/api/stocks"
     private val stockDbo = StockDbo.testInstance
     private val stockDbos = listOf(stockDbo)
+    private val anyStockDbo = stockDbo
     private val createStockDto = CreateStockRequestDto.testInstance
-    private val nonExistingStockId = 42
+    private val nonExistingStockId = 42L
 
     // GET /stocks
     // =================================================================================================================
@@ -59,7 +60,9 @@ class StocksControllerITest @Autowired constructor(
     // =================================================================================================================
 
     @Test
-    fun `When get non-existing stock Then return status code 404 NOT FOUND`() {
+    fun `Given stock not existing When get non-existing stock Then return status code 404 NOT FOUND`() {
+        whenever(mockStocksRepository.fetchStock(nonExistingStockId)).thenReturn(null)
+
         val response = rest.execute(GET, "$stocksPath/$nonExistingStockId")
 
         assertThat(response.statusCode).isEqualTo(HttpStatus.NOT_FOUND)
@@ -100,10 +103,24 @@ class StocksControllerITest @Autowired constructor(
     }
 
     @Test
-    fun `Given repo saves stock When create new stock Then return save in repository and return it`() {
-        val expectedStockDto = createStockDto.toStockDto()
-        val persistedStockDto = expectedStockDto.copy(id = 1)
-        whenever(mockStocksRepository.saveStock(expectedStockDto.toStockDbo())).thenReturn(persistedStockDto.toStockDbo())
+    fun `Given repo saves stock When create new stock Then save in repository`() {
+        val expectedStockDbo = createStockDto.toStockDbo()
+        whenever(mockStocksRepository.saveStock(expectedStockDbo)).thenReturn(anyStockDbo)
+
+        rest.executeExpectingStatusCode<StockDto>(
+            method = Method.POST,
+            path = stocksPath,
+            body = createStockDto
+        )
+
+        verify(mockStocksRepository).saveStock(expectedStockDbo)
+    }
+
+    @Test
+    fun `Given repo saves stock When create new stock Then return it`() {
+        val expectedStockDbo = createStockDto.toStockDbo()
+        val persistedStockDbo = expectedStockDbo.copy(id = 1)
+        whenever(mockStocksRepository.saveStock(expectedStockDbo)).thenReturn(persistedStockDbo)
 
         val returnedStock = rest.executeExpectingStatusCode<StockDto>(
             method = Method.POST,
@@ -111,15 +128,16 @@ class StocksControllerITest @Autowired constructor(
             body = createStockDto
         )
 
-        verify(mockStocksRepository).saveStock(expectedStockDto.toStockDbo())
-        assertThat(returnedStock).isEqualTo(persistedStockDto)
+        assertThat(returnedStock).isEqualTo(persistedStockDbo.toStockDto())
     }
 
     // PUT /stocks/$stockId
     // =================================================================================================================
 
     @Test
-    fun `When PUT non-existing stock Then return status code 404 NOT FOUND`() {
+    fun `Given stock not existing When PUT non-existing stock Then return status code 404 NOT FOUND`() {
+        whenever(mockStocksRepository.fetchStock(nonExistingStockId)).thenReturn(null)
+
         val response = rest.execute(
             method = PUT,
             path = "$stocksPath/$nonExistingStockId",

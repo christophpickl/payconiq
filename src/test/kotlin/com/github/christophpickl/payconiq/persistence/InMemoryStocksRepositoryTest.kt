@@ -2,6 +2,7 @@ package com.github.christophpickl.payconiq.persistence
 
 import com.github.christophpickl.payconiq.service.NotFoundException
 import com.github.christophpickl.payconiq.testInfrastructure.testInstance
+import com.github.christophpickl.payconiq.testInfrastructure.testInstanceChanged
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
@@ -11,12 +12,8 @@ class InMemoryStocksRepositoryTest {
 
     private lateinit var testee: InMemoryStocksRepository
     private val stockDbo = StockDbo.testInstance
-    private val stockDboChanged = StockDbo(
-        id = stockDbo.id,
-        name = stockDbo.name + "2",
-        currentPrice = stockDbo.currentPrice.add(1),
-        lastUpdate = stockDbo.lastUpdate.plusYears(1)
-    )
+    private val stockDboChanged = StockDbo.testInstanceChanged
+
     private val anyId = 42L
 
     @BeforeEach
