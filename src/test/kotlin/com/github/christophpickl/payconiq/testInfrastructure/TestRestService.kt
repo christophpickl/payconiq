@@ -36,7 +36,7 @@ class TestRestService(
         return internalRest.exchange(RequestEntity(body, method.httpMethod, URI.create(path)))
     }
 
-    inline fun <reified T : Any> requestFor(
+    final inline fun <reified T : Any> requestFor(
         method: Method,
         path: String,
         body: Any? = null,
