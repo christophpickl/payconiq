@@ -13,6 +13,7 @@ import com.github.christophpickl.payconiq.testInfrastructure.Method
 import com.github.christophpickl.payconiq.testInfrastructure.Method.GET
 import com.github.christophpickl.payconiq.testInfrastructure.Method.PUT
 import com.github.christophpickl.payconiq.testInfrastructure.TestRestService
+import com.github.christophpickl.payconiq.testInfrastructure.hasStatusCode
 import com.github.christophpickl.payconiq.testInfrastructure.testInstance
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.verify
@@ -44,7 +45,7 @@ class StocksControllerITest @Autowired constructor(
     fun `When get all stocks Then return status code 200 OK`() {
         val response = rest.request(GET, stocksPath)
 
-        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(response).hasStatusCode(HttpStatus.OK)
     }
 
     @Test
@@ -65,7 +66,7 @@ class StocksControllerITest @Autowired constructor(
 
         val response = rest.request(GET, "$stocksPath/$nonExistingStockId")
 
-        assertThat(response.statusCode).isEqualTo(HttpStatus.NOT_FOUND)
+        assertThat(response).hasStatusCode(HttpStatus.NOT_FOUND)
     }
 
     @Test
@@ -74,7 +75,7 @@ class StocksControllerITest @Autowired constructor(
 
         val response = rest.request(GET, "$stocksPath/${stockDbo.id}")
 
-        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(response).hasStatusCode(HttpStatus.OK)
     }
 
     @Test
@@ -99,7 +100,7 @@ class StocksControllerITest @Autowired constructor(
             body = CreateStockRequestDto.testInstance
         )
 
-        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(response).hasStatusCode(HttpStatus.OK)
     }
 
     @Test
@@ -144,7 +145,7 @@ class StocksControllerITest @Autowired constructor(
             body = UpdateStockRequestDto.testInstance
         )
 
-        assertThat(response.statusCode).isEqualTo(HttpStatus.NOT_FOUND)
+        assertThat(response).hasStatusCode(HttpStatus.NOT_FOUND)
     }
 
     @Test
@@ -157,7 +158,7 @@ class StocksControllerITest @Autowired constructor(
             body = UpdateStockRequestDto.testInstance
         )
 
-        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(response).hasStatusCode(HttpStatus.OK)
     }
 
     @Test

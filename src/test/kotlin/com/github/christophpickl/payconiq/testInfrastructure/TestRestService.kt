@@ -2,6 +2,7 @@ package com.github.christophpickl.payconiq.testInfrastructure
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import mu.KotlinLogging.logger
 import org.assertj.core.api.Assertions.assertThat
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.client.exchange
@@ -27,6 +28,8 @@ class TestRestService(
     private val internalRest: TestRestTemplate,
     val mapper: ObjectMapper
 ) {
+
+    val log = logger {}
 
     fun request(
         method: Method,
