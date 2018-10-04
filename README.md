@@ -22,8 +22,12 @@ Used tech stack:
 
 # TODO (for me)
 
+* Add implicit logging for certain (service/annotated) classes, rather do it manually
+* improve exception handling; better ApiError class; stacktrace (only in DEV mode), error codes; handle NPEs and generic Exception
+* spring profiles DEV/PROD, in PROD => increase log level, log to rolling file (own file with exceptions)
 * add postman collection
-* proper logging
+* rename TestRestService methdos: request / requestFor
+* release script (execute on travis)
 
 ## Notes
 
@@ -40,4 +44,4 @@ Used tech stack:
 * Use Java 11
 * Use Kotlin-DSL for gradle scripts
 * Build a Docker image and deploy to some (free) PaaS vendor
-* Add implicit logging for certain (service/annotated) classes, rather do it manually
+* Support for pagination
