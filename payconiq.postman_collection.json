@@ -1,0 +1,302 @@
+{
+    "info": {
+        "_postman_id": "36561575-992f-4222-9de4-f8a892dc0e57",
+        "name": "payconiq",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "/stocks",
+            "request": {
+                "method": "GET",
+                "header": [ ],
+                "body": { },
+                "url": {
+                    "raw": "{{baseUrl}}/api/stocks",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "stocks"
+                    ]
+                }
+            },
+            "response": [
+                {
+                    "name": "get single stock",
+                    "originalRequest": {
+                        "method": "GET",
+                        "header": [ ],
+                        "body": { },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/stocks",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "stocks"
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json;charset=UTF-8",
+                            "name": "Content-Type",
+                            "description": "The mime type of this content"
+                        },
+                        {
+                            "key": "Date",
+                            "value": "Thu, 04 Oct 2018 14:58:15 GMT",
+                            "name": "Date",
+                            "description": "The date and time that the message was sent"
+                        },
+                        {
+                            "key": "Transfer-Encoding",
+                            "value": "chunked",
+                            "name": "Transfer-Encoding",
+                            "description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+                        }
+                    ],
+                    "cookie": [ ],
+                    "body": "[{\"id\":1,\"name\":\"foo\",\"currentPrice\":{\"value\":100,\"precision\":0,\"currency\":\"EUR\"},\"lastUpdate\":\"2018-10-03T21:42:30\"}]"
+                }
+            ]
+        },
+        {
+            "name": "/stocks/{stockId}",
+            "request": {
+                "method": "GET",
+                "header": [ ],
+                "body": { },
+                "url": {
+                    "raw": "{{baseUrl}}/api/stocks/1",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "stocks",
+                        "1"
+                    ]
+                }
+            },
+            "response": [
+                {
+                    "name": "get stock #1",
+                    "originalRequest": {
+                        "method": "GET",
+                        "header": [ ],
+                        "body": { },
+                        "url": {
+                            "raw": "http://localhost:8080/api/stocks/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "stocks",
+                                "1"
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json;charset=UTF-8",
+                            "name": "Content-Type",
+                            "description": "The mime type of this content"
+                        },
+                        {
+                            "key": "Date",
+                            "value": "Thu, 04 Oct 2018 15:00:54 GMT",
+                            "name": "Date",
+                            "description": "The date and time that the message was sent"
+                        },
+                        {
+                            "key": "Transfer-Encoding",
+                            "value": "chunked",
+                            "name": "Transfer-Encoding",
+                            "description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+                        }
+                    ],
+                    "cookie": [ ],
+                    "body": "{\"id\":1,\"name\":\"foo\",\"currentPrice\":{\"value\":200,\"precision\":0,\"currency\":\"EUR\"},\"lastUpdate\":\"2018-10-03T21:42:30\"}"
+                }
+            ]
+        },
+        {
+            "name": "/stocks",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n\t\"name\": \"foo\",\n\t\"currentPrice\": {\n\t\t\"value\": 100,\n\t\t\"precision\": 0,\n\t\t\"currency\": \"EUR\"\n\t},\n\t\"lastUpdate\": \"2018-10-03T21:42:30\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/stocks",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "stocks"
+                    ]
+                }
+            },
+            "response": [
+                {
+                    "name": "successful request",
+                    "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "name": "Content-Type",
+                                "value": "application/json",
+                                "disabled": false
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"name\": \"foo\",\n\t\"currentPrice\": {\n\t\t\"value\": 100,\n\t\t\"precision\": 0,\n\t\t\"currency\": \"EUR\"\n\t},\n\t\"lastUpdate\": \"2018-10-03T21:42:30\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/stocks",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "stocks"
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json;charset=UTF-8",
+                            "name": "Content-Type",
+                            "description": "The mime type of this content"
+                        },
+                        {
+                            "key": "Date",
+                            "value": "Thu, 04 Oct 2018 14:56:58 GMT",
+                            "name": "Date",
+                            "description": "The date and time that the message was sent"
+                        },
+                        {
+                            "key": "Transfer-Encoding",
+                            "value": "chunked",
+                            "name": "Transfer-Encoding",
+                            "description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+                        }
+                    ],
+                    "cookie": [ ],
+                    "body": "{\"id\":1,\"name\":\"foo\",\"currentPrice\":{\"value\":100,\"precision\":0,\"currency\":\"EUR\"},\"lastUpdate\":\"2018-10-03T21:42:30\"}"
+                }
+            ]
+        },
+        {
+            "name": "/stocks/{stockId}",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n\t\"currentPrice\": {\n\t\t\"value\": 200,\n\t\t\"precision\": 0,\n\t\t\"currency\": \"EUR\"\n\t}\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/stocks/1",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "stocks",
+                        "1"
+                    ]
+                }
+            },
+            "response": [
+                {
+                    "name": "successful request",
+                    "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "disabled": false
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"currentPrice\": {\n\t\t\"value\": 200,\n\t\t\"precision\": 0,\n\t\t\"currency\": \"EUR\"\n\t}\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/stocks/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "stocks",
+                                "1"
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json;charset=UTF-8",
+                            "name": "Content-Type",
+                            "description": "The mime type of this content"
+                        },
+                        {
+                            "key": "Date",
+                            "value": "Thu, 04 Oct 2018 15:00:20 GMT",
+                            "name": "Date",
+                            "description": "The date and time that the message was sent"
+                        },
+                        {
+                            "key": "Transfer-Encoding",
+                            "value": "chunked",
+                            "name": "Transfer-Encoding",
+                            "description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+                        }
+                    ],
+                    "cookie": [ ],
+                    "body": "{\"id\":1,\"name\":\"foo\",\"currentPrice\":{\"value\":200,\"precision\":0,\"currency\":\"EUR\"},\"lastUpdate\":\"2018-10-03T21:42:30\"}"
+                }
+            ]
+        }
+    ]
+}

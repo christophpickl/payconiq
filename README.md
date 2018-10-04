@@ -4,7 +4,7 @@
 [![Travis](https://img.shields.io/travis/christophpickl/payconiq.svg)](https://travis-ci.org/christophpickl/payconiq)
 [![Issues](https://img.shields.io/github/issues/christophpickl/payconiq.svg)](https://github.com/christophpickl/payconiq/issues?q=is%3Aopen) 
 
-A simple "RPC over HTTP" application written in Kotlin to offer some basic CRUD operations.
+A simple "RPC over HTTP" (a.k.a. ReST) application written in Kotlin to offer some basic CRUD operations.
 
 Used tech stack:
 
@@ -20,14 +20,7 @@ Used tech stack:
     $ ./gradlw bootRun
     $ curl http://localhost:8080/api/stocks
 
-# TODO (for me)
-
-* Add implicit logging for certain (service/annotated) classes, rather do it manually
-* improve exception handling; better ApiError class; stacktrace (only in DEV mode), error codes; handle NPEs and generic Exception
-* spring profiles DEV/PROD, in PROD => increase log level, log to rolling file (own file with exceptions)
-* add postman collection
-* rename TestRestService methdos: request / requestFor
-* release script (execute on travis)
+For a more convenient approach to test the service, use the [Postman 2.1 collection](https://github.com/christophpickl/payconiq/blob/master/payconiq.postman_collection.json).
 
 ## Notes
 
@@ -45,3 +38,5 @@ Used tech stack:
 * Use Kotlin-DSL for gradle scripts
 * Build a Docker image and deploy to some (free) PaaS vendor
 * Support for pagination
+* Swagger ReST documentation
+* Run release on Travis (at least GIT tag it)

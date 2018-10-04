@@ -1,0 +1,6 @@
+logging:
+  level:
+    root: WARN
+    com.github.christophpickl.payconiq: TRACE
+  pattern:
+    console: "%d{MM-dd HH:mm:ss} [%thread] %-5level %X{userId} %X{requestId} %logger{36} - %msg%n"
