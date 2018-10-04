@@ -8,9 +8,10 @@ A simple "RPC over HTTP" (a.k.a. ReST) application written in Kotlin to offer so
 
 Used tech stack:
 
-* Gradle
 * Kotlin
+* Gradle
 * Spring Boot 2
+* AspectJ
 * JUnit 5, AssertJ, Mockito
 
 # Howto run
@@ -20,7 +21,9 @@ Used tech stack:
     $ ./gradlw bootRun
     $ curl http://localhost:8080/api/stocks
 
-For a more convenient approach to test the service, use the [Postman 2.1 collection](https://github.com/christophpickl/payconiq/blob/master/payconiq.postman_collection.json).
+In order to see a list of all stocks, upon up your browser and enter the following address: [http://localhost:8080](http://localhost:8080)
+
+For a more convenient approach to test the API, use the [Postman 2.1 collection](https://github.com/christophpickl/payconiq/blob/master/payconiq.postman_collection.json).
 
 ## Notes
 
