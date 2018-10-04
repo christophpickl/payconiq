@@ -6,7 +6,6 @@ import com.github.christophpickl.payconiq.service.NotFoundException
 import com.github.christophpickl.payconiq.testInfrastructure.IntegrationTest
 import com.github.christophpickl.payconiq.testInfrastructure.Method.GET
 import com.github.christophpickl.payconiq.testInfrastructure.TestRestService
-import com.github.christophpickl.payconiq.testInfrastructure.isEqualToIgnoringGivenProps
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,30 +29,39 @@ class CustomExceptionHandlerITest @Autowired constructor(
 
     @Test
     fun `When throw NullPointerException Then return status code 500 and proper ApiError`() {
-        val returnedApiError = rest.requestFor<ApiError>(
-            method = GET,
+        assertRequest(
             path = NULLPOINTER_PATH,
-            expectedStatusCode = HttpStatus.INTERNAL_SERVER_ERROR)
-
-        assertThat(returnedApiError).isEqualToIgnoringGivenProps(ApiError(
-            message = "",
-            errorCode = ErrorCode.UNKNOWN_ERROR,
-            path = NULLPOINTER_PATH
-        ), ApiError::message)
+            expectedStatusCode = HttpStatus.INTERNAL_SERVER_ERROR,
+            expectedErrorCode = ErrorCode.UNKNOWN_ERROR
+        )
     }
 
     @Test
     fun `When throw NotFoundException Then return status code 404 and proper ApiError`() {
-        val returnedApiError = rest.requestFor<ApiError>(
-            method = GET,
+        assertRequest(
             path = NOTFOUND_PATH,
-            expectedStatusCode = HttpStatus.NOT_FOUND)
+            expectedStatusCode = HttpStatus.NOT_FOUND,
+            expectedMessage = NOTFOUND_MESSAGE,
+            expectedErrorCode = ErrorCode.NOT_FOUND
+        )
+    }
 
-        assertThat(returnedApiError).isEqualToIgnoringGivenProps(ApiError(
-            message = NOTFOUND_MESSAGE,
-            errorCode = ErrorCode.NOT_FOUND,
-            path = NOTFOUND_PATH
-        ), ApiError::message)
+    private fun assertRequest(
+        path: String,
+        expectedStatusCode: HttpStatus,
+        expectedMessage: String? = null,
+        expectedErrorCode: ErrorCode
+    ) {
+        val apiError = rest.requestFor<ApiError>(
+            method = GET,
+            path = path,
+            expectedStatusCode = expectedStatusCode)
+
+        assertThat(apiError).isEqualTo(ApiError(
+            message = expectedMessage ?: apiError.message,
+            errorCode = expectedErrorCode,
+            path = path
+        ))
     }
 
 }

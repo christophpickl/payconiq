@@ -1,6 +1,7 @@
 package com.github.christophpickl.payconiq.rest
 
 import com.github.christophpickl.payconiq.service.NotFoundException
+import com.github.christophpickl.payconiq.service.PayconiqException
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -14,24 +15,34 @@ import javax.servlet.http.HttpServletRequest
 @RestController
 class CustomExceptionHandler : ResponseEntityExceptionHandler() {
 
+    private val log = mu.KotlinLogging.logger {}
+
     @ExceptionHandler(NotFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
-    fun handleNotFoundException(exception: NotFoundException, request: HttpServletRequest) = ApiError(
-        message = exception.publicMessage,
-        errorCode = ErrorCode.NOT_FOUND,
-        path = request.servletPath
-    )
+    fun handleNotFoundException(exception: NotFoundException, request: HttpServletRequest) =
+        buildApiError(exception, request, ErrorCode.NOT_FOUND)
 
     @ExceptionHandler(Exception::class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
-    fun handleGenericException(exception: Exception, request: HttpServletRequest) = ApiError(
-        message = "Unknown internal server error",
-        errorCode = ErrorCode.UNKNOWN_ERROR,
-        path = request.servletPath
-    )
+    fun handleException(exception: Exception, request: HttpServletRequest) =
+        buildApiError(exception, request, ErrorCode.UNKNOWN_ERROR)
 
+    private fun buildApiError(exception: Exception, request: HttpServletRequest, errorCode: ErrorCode): ApiError {
+        val message = if (exception is PayconiqException) {
+            exception.publicMessage
+        } else {
+            "Unknown internal server error!"
+        }
+        return ApiError(
+            message = message,
+            errorCode = errorCode,
+            path = request.servletPath
+        ).also { apiError ->
+            log.debug(exception) { "Returning: $apiError" }
+        }
+    }
 }
 
 data class ApiError(
