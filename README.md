@@ -20,15 +20,6 @@ Used tech stack:
     $ ./gradlw bootRun
     $ curl http://localhost:8080/api/stocks
 
-# TODO (for me)
-
-* Add implicit logging for certain (service/annotated) classes, rather do it manually
-* improve exception handling; better ApiError class; stacktrace (only in DEV mode), error codes; handle NPEs and generic Exception
-* spring profiles DEV/PROD, in PROD => increase log level, log to rolling file (own file with exceptions)
-* add postman collection
-* rename TestRestService methdos: request / requestFor
-* release script (execute on travis)
-
 ## Notes
 
 * Regarding "Provide us with a merge request to master of this repository", it was decided to split each requirement into seperate pull requests/issues.
