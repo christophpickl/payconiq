@@ -35,8 +35,8 @@ For a more convenient approach to test the service, use the [Postman 2.1 collect
 
 * Add authentication (and authorization) via Spring Security
 * Use Java 11
-* Use Kotlin-DSL for gradle scripts
-* Build a Docker image and deploy to some (free) PaaS vendor
-* Support for pagination
-* Swagger ReST documentation
+* Use Kotlin-DSL for Gradle scripts
+* Build a Docker image and deploy to PaaS ([Dokku](http://dokku.viewdocs.io/dokku/), [Heroku](https://www.heroku.com/) or [AWS free Tier](https://aws.amazon.com/free/))
+* Support pagination
+* Swagger documentation
 * Run release on Travis (at least GIT tag it)
