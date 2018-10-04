@@ -39,3 +39,4 @@ For a more convenient approach to test the service, use the [Postman 2.1 collect
 * Build a Docker image and deploy to some (free) PaaS vendor
 * Support for pagination
 * Swagger ReST documentation
+* Run release on Travis (at least GIT tag it)
