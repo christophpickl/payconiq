@@ -4,15 +4,19 @@
 [![Travis](https://img.shields.io/travis/christophpickl/payconiq.svg)](https://travis-ci.org/christophpickl/payconiq)
 [![Issues](https://img.shields.io/github/issues/christophpickl/payconiq.svg)](https://github.com/christophpickl/payconiq/issues?q=is%3Aopen) 
 
-A simple "RPC over HTTP" (a.k.a. ReST) application written in Kotlin to offer some basic CRUD operations.
+A simple "RPC over HTTP" (a.k.a. ReST) application written in Kotlin to offer some basic CRUD operations for stocks.
 
-Used tech stack:
+See full [requirements PDF](https://github.com/christophpickl/payconiq/blob/master/requirements.pdf) for more details.
+
+## Tech Stack
 
 * Kotlin
 * Gradle
 * Spring Boot 2
 * AspectJ
 * JUnit 5, AssertJ, Mockito
+* Travis CI
+* Postman
 
 # How to run
 
