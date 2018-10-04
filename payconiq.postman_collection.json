@@ -12,12 +12,10 @@
                 "header": [ ],
                 "body": { },
                 "url": {
-                    "raw": "http://localhost:8080/api/stocks",
-                    "protocol": "http",
+                    "raw": "{{baseUrl}}/api/stocks",
                     "host": [
-                        "localhost"
+                        "{{baseUrl}}"
                     ],
-                    "port": "8080",
                     "path": [
                         "api",
                         "stocks"
@@ -77,12 +75,10 @@
                 "header": [ ],
                 "body": { },
                 "url": {
-                    "raw": "http://localhost:8080/api/stocks/1",
-                    "protocol": "http",
+                    "raw": "{{baseUrl}}/api/stocks/1",
                     "host": [
-                        "localhost"
+                        "{{baseUrl}}"
                     ],
-                    "port": "8080",
                     "path": [
                         "api",
                         "stocks",
