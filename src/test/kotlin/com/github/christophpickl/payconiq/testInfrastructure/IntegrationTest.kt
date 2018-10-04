@@ -7,4 +7,5 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
+//@ActiveProfiles("test")
 annotation class IntegrationTest
