@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class StocksService(
-    private val repo: StocksRepository
+    private val repo: StocksRepository,
+    private val clock: Clock
 ) {
 
     @Logged
@@ -25,9 +26,12 @@ class StocksService(
 
     @Logged
     fun updateStock(stockId: Long, stockRequest: UpdateStockRequestDto): StockDto =
-        fetchStock(stockId).copyBy(stockRequest).also { updatedStock ->
-            repo.updateStock(updatedStock.toStockDbo())
-        }
+        fetchStock(stockId)
+            .copyBy(stockRequest)
+            .copy(lastUpdate = clock.now())
+            .also { updatedStock ->
+                repo.updateStock(updatedStock.toStockDbo())
+            }
 
 }
 
