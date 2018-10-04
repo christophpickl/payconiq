@@ -28,7 +28,7 @@ class TestRestService(
     val mapper: ObjectMapper
 ) {
 
-    fun execute(
+    fun request(
         method: Method,
         path: String,
         body: Any? = null
@@ -36,13 +36,13 @@ class TestRestService(
         return internalRest.exchange(RequestEntity(body, method.httpMethod, URI.create(path)))
     }
 
-    inline fun <reified T : Any> executeExpectingStatusCode(
+    inline fun <reified T : Any> requestFor(
         method: Method,
         path: String,
         body: Any? = null,
         expectedStatusCode: HttpStatus = HttpStatus.OK
     ): T {
-        val response = execute(method, path, body)
+        val response = request(method, path, body)
         assertThat(response.statusCode).describedAs("Response was: $response").isEqualTo(expectedStatusCode)
         return mapper.readValue<T>(response.body!!)
     }
