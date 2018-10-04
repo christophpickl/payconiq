@@ -29,14 +29,14 @@ In order to see a list of all stocks, upon up your browser and enter the followi
 
 For a more convenient approach to test the API, use the [Postman 2.1 collection](https://github.com/christophpickl/payconiq/blob/master/payconiq.postman_collection.json).
 
-## Notes
+# Notes
 
 * Regarding "Provide us with a merge request to master of this repository", it was decided to split each requirement into seperate pull requests/[issues](https://github.com/christophpickl/payconiq/issues?q=is%3Aissue+is%3Aclosed).
 
 ## Further possible doings
 
-* Use Java 11
 * Build a Docker image and deploy to PaaS ([Dokku](http://dokku.viewdocs.io/dokku/), [Heroku](https://www.heroku.com/) or [AWS free Tier](https://aws.amazon.com/free/))
+* Use Java 11
 * Add authentication (and authorization) via Spring Security
 * Use Kotlin-DSL for Gradle scripts
 * Support pagination
