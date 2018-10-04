@@ -1,7 +1,7 @@
 package com.github.christophpickl.payconiq
 
-import com.github.christophpickl.payconiq.rest.ApiError
-import com.github.christophpickl.payconiq.rest.ErrorCode
+import com.github.christophpickl.payconiq.rest.ApiErrorDto
+import com.github.christophpickl.payconiq.rest.ErrorCodeDto
 import com.github.christophpickl.payconiq.service.NotFoundException
 import com.github.christophpickl.payconiq.testInfrastructure.IntegrationTest
 import com.github.christophpickl.payconiq.testInfrastructure.Method.GET
@@ -32,7 +32,7 @@ class CustomExceptionHandlerITest @Autowired constructor(
         assertRequest(
             path = NULLPOINTER_PATH,
             expectedStatusCode = HttpStatus.INTERNAL_SERVER_ERROR,
-            expectedErrorCode = ErrorCode.UNKNOWN_ERROR
+            expectedErrorCode = ErrorCodeDto.UNKNOWN_ERROR
         )
     }
 
@@ -42,7 +42,7 @@ class CustomExceptionHandlerITest @Autowired constructor(
             path = NOTFOUND_PATH,
             expectedStatusCode = HttpStatus.NOT_FOUND,
             expectedMessage = NOTFOUND_MESSAGE,
-            expectedErrorCode = ErrorCode.NOT_FOUND
+            expectedErrorCode = ErrorCodeDto.NOT_FOUND
         )
     }
 
@@ -50,14 +50,14 @@ class CustomExceptionHandlerITest @Autowired constructor(
         path: String,
         expectedStatusCode: HttpStatus,
         expectedMessage: String? = null,
-        expectedErrorCode: ErrorCode
+        expectedErrorCode: ErrorCodeDto
     ) {
-        val apiError = rest.requestFor<ApiError>(
+        val apiError = rest.requestFor<ApiErrorDto>(
             method = GET,
             path = path,
             expectedStatusCode = expectedStatusCode)
 
-        assertThat(apiError).isEqualTo(ApiError(
+        assertThat(apiError).isEqualTo(ApiErrorDto(
             message = expectedMessage ?: apiError.message,
             errorCode = expectedErrorCode,
             path = path

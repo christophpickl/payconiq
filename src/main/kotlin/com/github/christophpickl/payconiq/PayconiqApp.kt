@@ -2,6 +2,7 @@ package com.github.christophpickl.payconiq
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.core.env.Environment
 
 @SpringBootApplication
 class PayconiqApp {
@@ -12,3 +13,5 @@ class PayconiqApp {
         }
     }
 }
+
+val Environment.isDevEnabled get() = activeProfiles.contains("dev")

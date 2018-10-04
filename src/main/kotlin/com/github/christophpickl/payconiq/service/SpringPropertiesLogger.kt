@@ -8,23 +8,6 @@ import org.springframework.core.env.Environment
 import org.springframework.core.env.MapPropertySource
 import org.springframework.stereotype.Component
 
-@Component
-class SpringPropertiesLoggerOnApplicationReady(
-    springEnvironment: Environment
-) {
-
-    private val logger = SpringPropertiesLogger(springEnvironment)
-
-    @EventListener(ApplicationReadyEvent::class)
-    fun onApplicationReadyEvent() {
-        logger.logProperties(
-            inclusions = emptyList(),
-            exclusions = listOf(".*(password).*".toRegex())
-        )
-    }
-
-}
-
 class SpringPropertiesLogger(
     private val springEnvironment: Environment
 ) {
@@ -62,6 +45,23 @@ class SpringPropertiesLogger(
     private fun Environment.listAllMapPropertySources(): List<MapPropertySource> {
         val abstractEnvironment = this as? ConfigurableEnvironment ?: return emptyList()
         return abstractEnvironment.propertySources.filterIsInstance<MapPropertySource>()
+    }
+
+}
+
+@Component
+class SpringPropertiesLoggerOnApplicationReady(
+    springEnvironment: Environment
+) {
+
+    private val logger = SpringPropertiesLogger(springEnvironment)
+
+    @EventListener(ApplicationReadyEvent::class)
+    fun onApplicationReadyEvent() {
+        logger.logProperties(
+            inclusions = emptyList(),
+            exclusions = listOf(".*(password).*".toRegex())
+        )
     }
 
 }
