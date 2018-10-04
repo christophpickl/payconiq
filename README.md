@@ -4,7 +4,7 @@
 [![Travis](https://img.shields.io/travis/christophpickl/payconiq.svg)](https://travis-ci.org/christophpickl/payconiq)
 [![Issues](https://img.shields.io/github/issues/christophpickl/payconiq.svg)](https://github.com/christophpickl/payconiq/issues?q=is%3Aopen) 
 
-A simple "RPC over HTTP" application written in Kotlin to offer some basic CRUD operations.
+A simple "RPC over HTTP" (a.k.a. ReST) application written in Kotlin to offer some basic CRUD operations.
 
 Used tech stack:
 
@@ -19,6 +19,8 @@ Used tech stack:
     $ cd payconiq
     $ ./gradlw bootRun
     $ curl http://localhost:8080/api/stocks
+
+For a more convenient approach to test the service, use the [Postman 2.1 collection](https://github.com/christophpickl/payconiq/blob/master/payconiq.postman_collection.json).
 
 ## Notes
 
@@ -36,3 +38,4 @@ Used tech stack:
 * Use Kotlin-DSL for gradle scripts
 * Build a Docker image and deploy to some (free) PaaS vendor
 * Support for pagination
+* Swagger ReST documentation
