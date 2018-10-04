@@ -13,15 +13,15 @@ class StocksService(
 
     @Logged
     fun fetchStocks(): List<StockDto> =
-            repo.fetchStocks().map { it.toStockDto() }
+        repo.fetchStocks().map { it.toStockDto() }
 
     @Logged
     fun fetchStock(stockId: Long): StockDto =
-            repo.fetchStock(stockId)?.toStockDto() ?: throw NotFoundException("Stock not found by ID: $stockId")
+        repo.fetchStock(stockId)?.toStockDto() ?: throw NotFoundException("Stock not found by ID: $stockId")
 
     @Logged
     fun createStock(stockRequest: CreateStockRequestDto): StockDto =
-            repo.saveStock(stockRequest.toStockDbo()).toStockDto()
+        repo.saveStock(stockRequest.toStockDbo()).toStockDto()
 
     @Logged
     fun updateStock(stockId: Long, stockRequest: UpdateStockRequestDto): StockDto =

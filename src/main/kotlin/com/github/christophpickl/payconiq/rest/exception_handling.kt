@@ -24,5 +24,5 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
 }
 
 data class ApiError(
-        val message: String
+    val message: String
 )
