@@ -14,7 +14,7 @@ Used tech stack:
 * AspectJ
 * JUnit 5, AssertJ, Mockito
 
-# Howto run
+# How to run
 
     $ git clone https://github.com/christophpickl/payconiq.git
     $ cd payconiq
@@ -27,19 +27,16 @@ For a more convenient approach to test the API, use the [Postman 2.1 collection]
 
 ## Notes
 
-* Regarding "Provide us with a merge request to master of this repository", it was decided to split each requirement into seperate pull requests/issues.
-
-### Deliberately left out
-
-* Unit and integration tests were not split up (own source paths) in order to keep it as simple as possible for this assignment.
-* There are no separate modules (rest, service, persistence) as it would have only unnecessarily increased the complexity.
+* Regarding "Provide us with a merge request to master of this repository", it was decided to split each requirement into seperate pull requests/[issues](https://github.com/christophpickl/payconiq/issues?q=is%3Aissue+is%3Aclosed).
 
 ## Further possible doings
 
-* Add authentication (and authorization) via Spring Security
 * Use Java 11
-* Use Kotlin-DSL for Gradle scripts
 * Build a Docker image and deploy to PaaS ([Dokku](http://dokku.viewdocs.io/dokku/), [Heroku](https://www.heroku.com/) or [AWS free Tier](https://aws.amazon.com/free/))
+* Add authentication (and authorization) via Spring Security
+* Use Kotlin-DSL for Gradle scripts
 * Support pagination
 * Swagger documentation
 * Run release on Travis (at least GIT tag it)
+* Split up unit and integration tests in separate source sets
+* Split into modules (rest, service, persistence)
