@@ -4,7 +4,6 @@ import com.github.christophpickl.payconiq.persistence.StocksRepository
 import com.github.christophpickl.payconiq.rest.CreateStockRequestDto
 import com.github.christophpickl.payconiq.rest.StockDto
 import com.github.christophpickl.payconiq.rest.UpdateStockRequestDto
-import mu.KotlinLogging.logger
 import org.springframework.stereotype.Service
 
 @Service
@@ -12,31 +11,23 @@ class StocksService(
     private val repo: StocksRepository
 ) {
 
-    private val log = logger {}
+    @Logged
+    fun fetchStocks(): List<StockDto> =
+            repo.fetchStocks().map { it.toStockDto() }
 
-    fun fetchStocks(): List<StockDto> {
-        log.debug { "fetchStocks()" }
-        return repo.fetchStocks().map { it.toStockDto() }
-    }
+    @Logged
+    fun fetchStock(stockId: Long): StockDto =
+            repo.fetchStock(stockId)?.toStockDto() ?: throw NotFoundException("Stock not found by ID: $stockId")
 
-    fun fetchStock(stockId: Long): StockDto {
-        log.debug { "fetchStock(stockId=$stockId)" }
-        return repo.fetchStock(stockId)?.toStockDto() ?: throw NotFoundException("Stock not found by ID: $stockId")
-    }
+    @Logged
+    fun createStock(stockRequest: CreateStockRequestDto): StockDto =
+            repo.saveStock(stockRequest.toStockDbo()).toStockDto()
 
-    fun createStock(stockRequest: CreateStockRequestDto): StockDto {
-        log.debug { "createStock(stockRequest=$stockRequest)" }
-        val savedStock = repo.saveStock(stockRequest.toStockDbo())
-        return savedStock.toStockDto()
-    }
-
-    fun updateStock(stockId: Long, stockRequest: UpdateStockRequestDto): StockDto {
-        log.debug { "fetchStock(stockId=$stockId, stockRequest=$stockRequest)" }
-        val storedStock = fetchStock(stockId)
-        val updatedStock = storedStock.copyBy(stockRequest)
-        repo.updateStock(updatedStock.toStockDbo())
-        return updatedStock
-    }
+    @Logged
+    fun updateStock(stockId: Long, stockRequest: UpdateStockRequestDto): StockDto =
+        fetchStock(stockId).copyBy(stockRequest).also { updatedStock ->
+            repo.updateStock(updatedStock.toStockDbo())
+        }
 
 }
 

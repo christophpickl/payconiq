@@ -17,11 +17,12 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(NotFoundException::class)
     fun handleNotFoundException(exception: NotFoundException): ResponseEntity<ApiError> {
-        log.warn(exception) { "Not found handled." }
+        log.debug(exception) { "Not found handled." }
         return ResponseEntity(ApiError("Not found"), HttpStatus.NOT_FOUND)
     }
+
 }
 
 data class ApiError(
-    val message: String
+        val message: String
 )
