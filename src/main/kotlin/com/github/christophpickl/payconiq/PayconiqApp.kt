@@ -15,3 +15,4 @@ class PayconiqApp {
 }
 
 val Environment.isDevEnabled get() = activeProfiles.contains("dev")
+val Environment.isTestEnabled get() = activeProfiles.contains("test")
