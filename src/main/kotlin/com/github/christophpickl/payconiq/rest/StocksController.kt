@@ -4,6 +4,7 @@ import com.github.christophpickl.payconiq.service.StocksService
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -25,8 +26,14 @@ class StocksController(
     ): StockDto =
         service.fetchStock(stockId)
 
+    @PostMapping(consumes = [APPLICATION_JSON_VALUE])
+    fun createStock(
+        @RequestBody stockRequest: CreateStockRequestDto
+    ): StockDto =
+        service.createStock(stockRequest)
+
     @PutMapping(value = ["/{stockId}"], consumes = [APPLICATION_JSON_VALUE])
-    fun putStock(
+    fun updateStock(
         @PathVariable("stockId") stockId: Long,
         @RequestBody stockRequest: UpdateStockRequestDto
     ): StockDto =

@@ -3,6 +3,7 @@ package com.github.christophpickl.payconiq.service
 import com.github.christophpickl.payconiq.persistence.AmountDbo
 import com.github.christophpickl.payconiq.persistence.StockDbo
 import com.github.christophpickl.payconiq.rest.AmountDto
+import com.github.christophpickl.payconiq.rest.CreateStockRequestDto
 import com.github.christophpickl.payconiq.rest.StockDto
 
 fun StockDbo.toStockDto() = StockDto(
@@ -25,9 +26,17 @@ fun AmountDbo.toAmountDto() = AmountDto(
     currency = currency
 )
 
-
 fun AmountDto.toAmountDbo() = AmountDbo(
     value = value,
     precision = precision,
     currency = currency
+)
+
+const val UNSET_STOCK_ID = 0L
+
+fun CreateStockRequestDto.toStockDbo() = StockDbo(
+    id = UNSET_STOCK_ID,
+    name = name,
+    currentPrice = currentPrice.toAmountDbo(),
+    lastUpdate = lastUpdate
 )
