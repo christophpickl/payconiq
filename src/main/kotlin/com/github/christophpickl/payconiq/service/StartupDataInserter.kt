@@ -27,14 +27,21 @@ class StartupDataInserter(
 
         log.info { "Inserting startup stock items." }
         listOf(
-            StockDbo(0, "NASDAQ:AAPL", AmountDbo.euro(868), LocalDateTime.now()),
-            StockDbo(0, "NASDAQ:GOOGL", AmountDbo.euro(720), LocalDateTime.now()),
-            StockDbo(0, "NASDAQ:MSFT", AmountDbo.euro(600), LocalDateTime.now()),
-            StockDbo(0, "NASDAQ:AMZN", AmountDbo.euro(560), LocalDateTime.now()),
-            StockDbo(0, "NASDAQ:FB", AmountDbo.euro(508), LocalDateTime.now())
+            newStock("NASDAQ:AAPL", 868),
+            newStock("NASDAQ:GOOGL", 720),
+            newStock("NASDAQ:MSFT", 600),
+            newStock("NASDAQ:AMZN", 560),
+            newStock("NASDAQ:FB", 508)
         ).forEach {
             stocksRepository.saveStock(it)
         }
     }
+
+    private fun newStock(name: String, currentPrice: Int) = StockDbo(
+        id = UNSET_STOCK_ID,
+        name = name,
+        currentPrice = AmountDbo.euro(currentPrice),
+        lastUpdate = LocalDateTime.now()
+    )
 
 }

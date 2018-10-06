@@ -25,9 +25,9 @@ class StocksService(
         repo.saveStock(stockRequest.toStockDbo()).toStockDto()
 
     @Logged
-    fun updateStock(stockId: Long, stockRequest: UpdateStockRequestDto): StockDto =
+    fun updateStock(stockId: Long, updateRequest: UpdateStockRequestDto): StockDto =
         fetchStock(stockId)
-            .copyBy(stockRequest)
+            .copyBy(updateRequest)
             .copy(lastUpdate = clock.now())
             .also { updatedStock ->
                 repo.updateStock(updatedStock.toStockDbo())

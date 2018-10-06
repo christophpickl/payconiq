@@ -17,8 +17,6 @@ data class AmountDbo(
     val currency: String
 ) {
     companion object {
-        fun euro(euro: Long) = AmountDbo(euro, 0, "EUR")
+        fun euro(value: Int) = AmountDbo(value.toLong(), 0, "EUR")
     }
-
-    fun add(addValue: Int) = copy(value = value + addValue)
 }

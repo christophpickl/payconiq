@@ -6,6 +6,8 @@ import com.github.christophpickl.payconiq.rest.AmountDto
 import com.github.christophpickl.payconiq.rest.CreateStockRequestDto
 import com.github.christophpickl.payconiq.rest.StockDto
 
+const val UNSET_STOCK_ID = 0L
+
 fun StockDbo.toStockDto() = StockDto(
     id = id,
     name = name,
@@ -31,8 +33,6 @@ fun AmountDto.toAmountDbo() = AmountDbo(
     precision = precision,
     currency = currency
 )
-
-const val UNSET_STOCK_ID = 0L
 
 fun CreateStockRequestDto.toStockDbo() = StockDbo(
     id = UNSET_STOCK_ID,

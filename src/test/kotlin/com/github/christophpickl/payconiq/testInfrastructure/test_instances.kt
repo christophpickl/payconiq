@@ -38,3 +38,5 @@ val AmountDto.Companion.testInstance
 
 val AmountDbo.Companion.testInstance
     get() = AmountDbo.euro(100)
+
+fun AmountDbo.add(addValue: Int) = copy(value = value + addValue)

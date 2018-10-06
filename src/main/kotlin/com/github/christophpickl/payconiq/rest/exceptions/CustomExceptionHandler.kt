@@ -1,11 +1,15 @@
-package com.github.christophpickl.payconiq.rest
+package com.github.christophpickl.payconiq.rest.exceptions
 
 import com.github.christophpickl.payconiq.isDevEnabled
+import com.github.christophpickl.payconiq.rest.exceptions.ErrorCodeDto.BAD_REQUEST
+import com.github.christophpickl.payconiq.rest.exceptions.ErrorCodeDto.UNKNOWN_ERROR
+import com.github.christophpickl.payconiq.service.GenericException
 import com.github.christophpickl.payconiq.service.NotFoundException
-import com.github.christophpickl.payconiq.service.PayconiqException
 import org.springframework.core.env.Environment
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
+import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -27,7 +31,7 @@ class CustomExceptionHandler(
     private val log = mu.KotlinLogging.logger {}
 
     @ExceptionHandler(NotFoundException::class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(NOT_FOUND)
     @ResponseBody
     fun handleNotFoundException(exception: NotFoundException, request: HttpServletRequest) =
         buildApiError(exception, request.servletPath, ErrorCodeDto.NOT_FOUND)
@@ -38,13 +42,13 @@ class CustomExceptionHandler(
         status: HttpStatus,
         request: WebRequest
     ): ResponseEntity<Any> =
-        ResponseEntity(buildApiError(exception, request.requestPath, ErrorCodeDto.BAD_REQUEST, overrideMessage = exception.message), HttpStatus.BAD_REQUEST)
+        ResponseEntity(buildApiError(exception, request.requestPath, BAD_REQUEST, overrideMessage = exception.message), HttpStatus.BAD_REQUEST)
 
     @ExceptionHandler(Exception::class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(INTERNAL_SERVER_ERROR)
     @ResponseBody
     fun handleGenericException(exception: Exception, request: HttpServletRequest) =
-        buildApiError(exception, request.servletPath, ErrorCodeDto.UNKNOWN_ERROR)
+        buildApiError(exception, request.servletPath, UNKNOWN_ERROR)
 
     private fun buildApiError(
         exception: Exception,
@@ -55,7 +59,7 @@ class CustomExceptionHandler(
         ApiErrorDto(
             message = when {
                 overrideMessage != null -> overrideMessage
-                exception is PayconiqException -> exception.publicMessage
+                exception is GenericException -> exception.publicMessage
                 else -> "Unknown server error!"
             },
             errorCode = errorCode,
@@ -66,36 +70,13 @@ class CustomExceptionHandler(
         }
 
     private val WebRequest.requestPath
-        get() =
-            ((this as? ServletWebRequest)?.nativeRequest as? HttpServletRequest)?.servletPath ?: ""
+        get() = ((this as? ServletWebRequest)?.nativeRequest as? HttpServletRequest)?.servletPath ?: ""
 
-}
-
-data class ApiErrorDto(
-    val message: String,
-    val errorCode: ErrorCodeDto,
-    val path: String,
-    val exception: ExceptionDto? = null
-)
-
-enum class ErrorCodeDto {
-    UNKNOWN_ERROR,
-    BAD_REQUEST,
-    NOT_FOUND
-}
-
-data class ExceptionDto(
-    val type: String,
-    val message: String,
-    val trace: List<String>,
-    val cause: ExceptionDto?
-)
-
-private fun Throwable.toExceptionDto(): ExceptionDto {
-    return ExceptionDto(
+    private fun Throwable.toExceptionDto(): ExceptionDto = ExceptionDto(
         type = javaClass.name,
         message = message ?: "",
         trace = stackTrace.map { "${it.className}.${it.methodName}(${it.fileName}:${it.lineNumber})" },
         cause = cause?.toExceptionDto()
     )
+
 }

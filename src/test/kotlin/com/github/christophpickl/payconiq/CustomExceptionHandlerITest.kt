@@ -1,7 +1,8 @@
 package com.github.christophpickl.payconiq
 
-import com.github.christophpickl.payconiq.rest.ApiErrorDto
-import com.github.christophpickl.payconiq.rest.ErrorCodeDto
+import com.github.christophpickl.payconiq.rest.exceptions.ApiErrorDto
+import com.github.christophpickl.payconiq.rest.exceptions.ErrorCodeDto
+import com.github.christophpickl.payconiq.rest.exceptions.ErrorCodeDto.BAD_REQUEST
 import com.github.christophpickl.payconiq.service.NotFoundException
 import com.github.christophpickl.payconiq.testInfrastructure.IntegrationTest
 import com.github.christophpickl.payconiq.testInfrastructure.Method.GET
@@ -67,7 +68,7 @@ class CustomExceptionHandlerITest @Autowired constructor(
 
         assertThat(apiError).isEqualToIgnoringGivenProps(ApiErrorDto(
             message = "",
-            errorCode = ErrorCodeDto.BAD_REQUEST,
+            errorCode = BAD_REQUEST,
             path = REQUESTBODY_PATH
         ), ApiErrorDto::message)
         assertThat(apiError.message).contains(RequestBodyDto::missingField.name)
