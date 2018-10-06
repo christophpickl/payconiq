@@ -14,6 +14,7 @@ import com.github.christophpickl.payconiq.testInfrastructure.Method
 import com.github.christophpickl.payconiq.testInfrastructure.Method.GET
 import com.github.christophpickl.payconiq.testInfrastructure.Method.PUT
 import com.github.christophpickl.payconiq.testInfrastructure.TestRestService
+import com.github.christophpickl.payconiq.testInfrastructure.add
 import com.github.christophpickl.payconiq.testInfrastructure.hasStatusCode
 import com.github.christophpickl.payconiq.testInfrastructure.isEqualToIgnoringGivenProps
 import com.github.christophpickl.payconiq.testInfrastructure.testInstance
@@ -42,6 +43,8 @@ class StocksControllerITest @Autowired constructor(
     private val stockDbos = listOf(stockDbo)
     private val anyStockDbo = stockDbo
     private val createStockDto = CreateStockRequestDto.testInstance
+    private val anyCreateStockDto = createStockDto
+    private val anyUploadtStockDto = UpdateStockRequestDto.testInstance
     private val nonExistingStockId = 42L
     private val time1 = LocalDateTime.parse("2018-10-03T21:42:30")
     private val time2 = time1.plusDays(1)
@@ -88,7 +91,7 @@ class StocksControllerITest @Autowired constructor(
     }
 
     @Test
-    fun `Given stock exists When get this stock Then return that stocks`() {
+    fun `Given stock exists When get this stock Then return that stock`() {
         whenever(mockStocksRepo.fetchStock(stockDbo.id)).thenReturn(stockDbo)
 
         val returnedStock = rest.requestFor<StockDto>(GET, "$stocksPath/${stockDbo.id}")
@@ -101,12 +104,12 @@ class StocksControllerITest @Autowired constructor(
 
     @Test
     fun `Given repo saves stock When create new stock Then return status code 200 OK`() {
-        whenever(mockStocksRepo.saveStock(any())).thenReturn(StockDbo.testInstance)
+        whenever(mockStocksRepo.saveStock(any())).thenReturn(anyStockDbo)
 
         val response = rest.request(
             method = Method.POST,
             path = stocksPath,
-            body = CreateStockRequestDto.testInstance
+            body = anyCreateStockDto
         )
 
         assertThat(response).hasStatusCode(HttpStatus.OK)
@@ -114,8 +117,8 @@ class StocksControllerITest @Autowired constructor(
 
     @Test
     fun `Given repo saves stock When create new stock Then save in repository`() {
-        val expectedStockDbo = createStockDto.toStockDbo()
-        whenever(mockStocksRepo.saveStock(expectedStockDbo)).thenReturn(anyStockDbo)
+        val expectedSaveStockDbo = createStockDto.toStockDbo()
+        whenever(mockStocksRepo.saveStock(expectedSaveStockDbo)).thenReturn(anyStockDbo)
 
         rest.requestFor<StockDto>(
             method = Method.POST,
@@ -123,11 +126,11 @@ class StocksControllerITest @Autowired constructor(
             body = createStockDto
         )
 
-        verify(mockStocksRepo).saveStock(expectedStockDbo)
+        verify(mockStocksRepo).saveStock(expectedSaveStockDbo)
     }
 
     @Test
-    fun `Given repo saves stock When create new stock Then return it`() {
+    fun `Given repo saves stock When create new stock Then return that stock`() {
         val expectedStockDbo = createStockDto.toStockDbo()
         val persistedStockDbo = expectedStockDbo.copy(id = 1)
         whenever(mockStocksRepo.saveStock(expectedStockDbo)).thenReturn(persistedStockDbo)
@@ -151,7 +154,7 @@ class StocksControllerITest @Autowired constructor(
         val response = rest.request(
             method = PUT,
             path = "$stocksPath/$nonExistingStockId",
-            body = UpdateStockRequestDto.testInstance
+            body = anyUploadtStockDto
         )
 
         assertThat(response).hasStatusCode(HttpStatus.NOT_FOUND)
@@ -165,7 +168,7 @@ class StocksControllerITest @Autowired constructor(
         val response = rest.request(
             method = PUT,
             path = "$stocksPath/${stockDbo.id}",
-            body = UpdateStockRequestDto.testInstance
+            body = anyUploadtStockDto
         )
 
         assertThat(response).hasStatusCode(HttpStatus.OK)

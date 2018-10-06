@@ -17,6 +17,7 @@ class InMemoryStocksRepository : StocksRepository {
 
     /** Visible for testing. */
     val stocksById = mutableMapOf<Long, StockDbo>()
+
     private val idGenerator = AtomicLong(1)
 
     @Logged
