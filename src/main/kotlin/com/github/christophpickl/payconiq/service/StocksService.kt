@@ -22,7 +22,7 @@ class StocksService(
 
     @Logged
     fun createStock(stockRequest: CreateStockRequestDto): StockDto =
-        repo.saveStock(stockRequest.toStockDbo()).toStockDto()
+        repo.saveStock(stockRequest.toStockDbo(clock.now())).toStockDto()
 
     @Logged
     fun updateStock(stockId: Long, updateRequest: UpdateStockRequestDto): StockDto =

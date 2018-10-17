@@ -11,8 +11,7 @@ data class StockDto(
 
 data class CreateStockRequestDto(
     val name: String,
-    val currentPrice: AmountDto,
-    val lastUpdate: LocalDateTime
+    val currentPrice: AmountDto
 ) {
     companion object
 }

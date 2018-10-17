@@ -104,6 +104,7 @@ class StocksControllerITest @Autowired constructor(
 
     @Test
     fun `Given repo saves stock When create new stock Then return status code 200 OK`() {
+        whenever(mockClock.now()).thenReturn(anyTime)
         whenever(mockStocksRepo.saveStock(any())).thenReturn(anyStockDbo)
 
         val response = rest.request(
@@ -117,7 +118,8 @@ class StocksControllerITest @Autowired constructor(
 
     @Test
     fun `Given repo saves stock When create new stock Then save in repository`() {
-        val expectedSaveStockDbo = createStockDto.toStockDbo()
+        val expectedSaveStockDbo = createStockDto.toStockDbo(anyTime)
+        whenever(mockClock.now()).thenReturn(anyTime)
         whenever(mockStocksRepo.saveStock(expectedSaveStockDbo)).thenReturn(anyStockDbo)
 
         rest.requestFor<StockDto>(
@@ -131,8 +133,9 @@ class StocksControllerITest @Autowired constructor(
 
     @Test
     fun `Given repo saves stock When create new stock Then return that stock`() {
-        val expectedStockDbo = createStockDto.toStockDbo()
+        val expectedStockDbo = createStockDto.toStockDbo(anyTime)
         val persistedStockDbo = expectedStockDbo.copy(id = 1)
+        whenever(mockClock.now()).thenReturn(anyTime)
         whenever(mockStocksRepo.saveStock(expectedStockDbo)).thenReturn(persistedStockDbo)
 
         val returnedStock = rest.requestFor<StockDto>(

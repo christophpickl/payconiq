@@ -29,8 +29,7 @@ val UpdateStockRequestDto.Companion.testInstance
 val CreateStockRequestDto.Companion.testInstance
     get() = CreateStockRequestDto(
         name = "createName",
-        currentPrice = AmountDto.testInstance,
-        lastUpdate = LocalDateTime.parse("2019-10-03T21:42:30")
+        currentPrice = AmountDto.testInstance
     )
 
 val AmountDto.Companion.testInstance

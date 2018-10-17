@@ -5,6 +5,7 @@ import com.github.christophpickl.payconiq.persistence.StockDbo
 import com.github.christophpickl.payconiq.rest.AmountDto
 import com.github.christophpickl.payconiq.rest.CreateStockRequestDto
 import com.github.christophpickl.payconiq.rest.StockDto
+import java.time.LocalDateTime
 
 const val UNSET_STOCK_ID = 0L
 
@@ -34,7 +35,7 @@ fun AmountDto.toAmountDbo() = AmountDbo(
     currency = currency
 )
 
-fun CreateStockRequestDto.toStockDbo() = StockDbo(
+fun CreateStockRequestDto.toStockDbo(lastUpdate: LocalDateTime) = StockDbo(
     id = UNSET_STOCK_ID,
     name = name,
     currentPrice = currentPrice.toAmountDbo(),
